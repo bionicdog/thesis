@@ -1,0 +1,13 @@
+__pycache__
+**.pyc
+rsLibrary/__pycache__
+rsRobot/__pycache__
+*.pyc
+rsImaging/__pycache__
+rsImaging/.spyproject
+rsRobot/.spyproject
+rsImaging/__pycache__
+*.pkl
+*.bak
+*.zip
+/old-QualitativeModel
