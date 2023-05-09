@@ -5,6 +5,8 @@ import numpy as np
 import cv2
 import glob
 
+from brownconrad import calc_newPixelLoc, inputCalc_newPixelLoc
+
 #termination criteria
 criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 
@@ -43,6 +45,11 @@ def test(imageName):
         print("translation vectors")
         print(tvecs)
         #'''
+
+        # test brown-conrad
+        inputParams = inputCalc_newPixelLoc(mtx, dist)
+        print(corners2[0][0])
+        print(calc_newPixelLoc(inputParams, x_dist=corners2[0][0][0], y_dist=corners2[0][0][1]))
 
         #draw and display corners
         cv2.drawChessboardCorners(img, (9, 6), corners2, ret)
