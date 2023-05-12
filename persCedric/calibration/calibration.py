@@ -3,6 +3,7 @@
 
 import numpy as np
 import cv2
+import matplotlib.pyplot as plt
 import glob
 
 from brownconrad import calc_newPixelLoc, inputCalc_newPixelLoc
@@ -49,12 +50,27 @@ def test(imageName):
         # test brown-conrad
         inputParams = inputCalc_newPixelLoc(mtx, dist)
         print(corners2[0][0])
-        print(calc_newPixelLoc(inputParams, x_dist=corners2[0][0][0], y_dist=corners2[0][0][1]))
+        print(calc_newPixelLoc(inputParams, corners2[0][0]))
 
+        corners3 = []
+        for cornerTemp in corners2:
+            corner = cornerTemp[0]
+            corners3.append([calc_newPixelLoc(inputParams, corner)])
+
+        #print(type(corners2[0][0][0]))
+        corners3 = np.array(corners3, np.float32)
+        #print(type(corners3[0][0][0]))
         #draw and display corners
-        cv2.drawChessboardCorners(img, (9, 6), corners2, ret)
+        cv2.drawChessboardCorners(img, (9, 6), corners3, ret)
         cv2.imshow('test', img)
         cv2.waitKey(0)
+
+        '''
+        dst = cv2.undistort(img, mtx, dist, None, mtx)
+        cv2.drawChessboardCorners(dst, (9, 6), corners3, ret)
+        cv2.imshow('test2', img)
+        cv2.waitKey(0)
+        '''
     else:
         return False
     return

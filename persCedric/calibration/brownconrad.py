@@ -32,7 +32,7 @@ def inputCalc_newPixelLoc(camMtx, distCoef):
     
     return cx, cy, k1, k2, k3, p1, p2
 
-def calc_newPixelLoc(inputParams, x_dist, y_dist):
+def calc_newPixelLoc(inputParams, dist_point):
     # params
     # inputParams of outputsize inputCalc_newPixelLoc
     # x_distorted (coordinate picture)
@@ -40,6 +40,8 @@ def calc_newPixelLoc(inputParams, x_dist, y_dist):
 
     # taking params out of inputParams
     cx, cy, k1, k2, k3, p1, p2 = inputParams
+    x_dist = dist_point[0]
+    y_dist = dist_point[1]
     r = np.sqrt(np.square(x_dist - cx) + np.square(y_dist - cy))
 
     # calculation (Brown-Conrady)
@@ -49,4 +51,4 @@ def calc_newPixelLoc(inputParams, x_dist, y_dist):
     y_undist = y_dist + (y_dist - cx) * (k1 * np.square(r) + k2 * np.power(r, 4) + k3 * np.power(r, 6)) \
         + 2 * p1 * (x_dist - cx) * (y_dist - cy) + p2 * (np.square(r) + 2 * np.square(y_dist - cy)) 
     
-    return x_undist, y_undist
+    return [x_undist, y_undist]
