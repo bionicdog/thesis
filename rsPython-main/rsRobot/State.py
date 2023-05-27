@@ -10,6 +10,8 @@ import sys
 if '..' not in sys.path:
     sys.path.append('..') # rsPython folder (specify all our libraries relative to that folder) # repository of Robotic Sensing Lab's Python code
 from rsLibrary.Monitor import gMonitorT, createMonitorT
+from typing import Callable # https://stackoverflow.com/questions/37835179/how-can-i-specify-the-function-type-in-my-type-hints
+
 
 #### #### #### ####  StateDef & States  #### #### #### #### 
 class StateDef:
@@ -24,7 +26,7 @@ class StateDef:
     relations:      dict defining the relations among the variables (dependent : independent)
     forwardMath:    function with equations to calculate the dependent from the independent variables
     """
-    def __init__(self, variables:list, relations:dict, forwardMath):
+    def __init__(self, variables:list, relations:dict, forwardMath: Callable):
         self.variables = variables
         self.relations = relations  # if key in relations-dict: it is a dependent variable
         self.forwardMath = forwardMath
@@ -52,12 +54,15 @@ class States (dict):
     dts:       time gaps of frame with previous frame
     """
     varPrefix = '' # to distinguish between similar names
-    def __init__(self, stateDef:StateDef, initialValues:dict):
+    def __init__(self, stateDef:StateDef, initialValues:dict = None):
         dict.__init__(self)
         self.stateDef = stateDef
         self.dts = [1]  # value is unimportant (there is no previous frame)
         for var in stateDef.variables:
-            self[var] = initialValues[var].copy() if type(initialValues[var]) == list else [ initialValues[var] ]
+            if initialValues is not None and var in initialValues:
+                self[var] = initialValues[var].copy() if type(initialValues[var]) == list else [ initialValues[var] ]
+            else:
+                self[var] = [0]
             gMonitorT().setValue(self.varPrefix + var, self[var][0], 0)
         self.now = 0 # current index
         self.T = 0 # current time
@@ -83,14 +88,15 @@ class States (dict):
         gMonitorT().setValue('T', self.T, self.now)
         
     def addFrameWithCopy(self, dt = 1):
-        for key in self:
-            prev_value = self[key][-1]
-            self[key].append(prev_value) # copy of previous value
         self.dts.append(dt)
         self.now += 1
         self.T += dt
         gMonitorT().setValue('dt', dt, self.now)
         gMonitorT().setValue('T', self.T, self.now)
+        for key in self:
+            prev_value = self[key][-1]
+            self[key].append(prev_value) # copy of previous value
+            gMonitorT().setValue(key, prev_value, self.now)
         
     def setDt(self, dt):
         current_dt = self.dts[-1]
@@ -127,6 +133,11 @@ class States (dict):
     def addVariable(self, var, initialValue):
         self[var] = initialValue.copy() if type(initialValue) == list else [ initialValue ]
         gMonitorT().setValue(self.varPrefix + var, self[var][0], 0)
+        
+    def getStateT(self, t):
+        """Get the state vector at time t, return as a dict {stateVar:value[t]}"""
+        return {s:self.value(s, t) for s in self}
+        
 
         
 ### #### #### #### ### #### #### #### #### #### #### #### ###      
@@ -135,12 +146,12 @@ class States (dict):
 if __name__== "__main__":
     print('*** Demo code State.py ***')
     
-    if False:
+    if True:
         # test code: define & create state & test forward function
         
         # 1D-world
         variables = ['a', 'v', 'x'] # acceleration holds during the whole period, v and x is the value at the end of the period
-        relationDict ={'v': 'a', 'x': 'v'}
+        relationDict = {'v': 'a', 'x': 'v'}
         
         def forwardMath1D(states, t, dts):
             states.setValue('v', t, states['a'][t] * dts[t] + states['v'][t - 1]) 
@@ -156,7 +167,8 @@ if __name__== "__main__":
         acceleration = [2, 0, 0, 2, -2, -2]
     
         # state evolution    
-        states = States(stateDef, {'a':0, 'v':0, 'x':0})
+#        states = States(stateDef, {'a':0, 'v':0, 'x':0})
+        states = States(stateDef)
         gMonitorT().printLastFrame()
         for i in range(0, len(acceleration)):
             t = i + 1
@@ -167,7 +179,7 @@ if __name__== "__main__":
             #states.print(t)
 
     #### #### #### ####  simulation with varying dt  #### #### #### #### 
-    if True:
+    if False:
         # 1D-world
         variables = ['a', 'v', 'x'] # acceleration holds during the whole period, v and x is the value at the end of the period
         relationDict ={'v': 'a', 'x': 'v'}

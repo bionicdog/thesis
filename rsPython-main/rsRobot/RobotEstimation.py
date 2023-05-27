@@ -9,15 +9,13 @@ Created: May - October 2021
 import copy
 import random
 import sys
-import math
 if '..' not in sys.path:
     sys.path.append('..') # rsPython folder (specify all our libraries relative to that folder) # repository of Robotic Sensing Lab's Python code
 from rsLibrary.Monitor import gMonitorT, createMonitorT
-from rsFaultHandling.Observer import gObservationModule, createObservationModule
-from rsFaultHandling.Corrupters import Corrupter, MultiCorrupter
+#from rsFaultHandling.Observer import gObservationModule, createObservationModule
+#from rsFaultHandling.Corrupters import Corrupter, MultiCorrupter
 from rsLibrary.Estimation import EstimationProblem, EstimationAlg, RandomChangeEstimation
 import rsLibrary.Jacobian as Jacobian
-from rsLibrary.Monitor import gMonitorT, createMonitorT
 
 from State import StateDef, States
 import Motors
@@ -88,114 +86,10 @@ class RobotModel (Robots.Robot, EstimationProblem):
        variables_before_update = self.updateableVariables().copy()  
        
        est.solve() # method defined in Estimation.IterativeEstimationAlg
-       
+
        errors, totalError_end = self.errors()
 
        variables_after_update =  self.updateableVariables()
-       
-       changes = {} # dict from variable to tuple with old and new value
-       for k in variables_before_update:
-           changes[k] = (variables_before_update[k], variables_after_update[k])
-       return changes
-   
-    def estimateWithValidRegions(self, nbrTries = 10000, printLevel = 1, UPDATE_FACTOR = 0.5, maxNbrDecreases = 10, newFrame=True):
-       if newFrame:
-           self.states.addFrameWithCopy() # TODO: could provide better estimate for state variables of new frame
-       self.states.calcDepVars(self.states.now)
-       if (printLevel > 2):
-           print('Initialization of ', end ='')
-           self.states.printFrame(self.states.now)     
-        
-      # est = RandomChangeEstimation(self, nbrTries, printLevel)
-       est = Jacobian.EstimationWithJacobian(self, nbrTries, UPDATE_FACTOR = UPDATE_FACTOR, maxNbrDecreases = maxNbrDecreases, printLevel = printLevel)
-       
-       variables_before_update = self.updateableVariables().copy()  
-       variables_after_update =  self.updateableVariables()
-       states_before_update = self.states.deepcopy()
-       print('\nBEFORE')       
-       print('\tvariables:', variables_before_update)
-       print('\tstates', states_before_update)
-       
-       # self.states.setValue('o', -1, 50)
-       # print(id(self.states), id(states_before_update))
-      
-       best_states = self.states.deepcopy()
-       
-       totalError_end = []
-       
-       # to save the errors of the best solution
-       errors = self.errors()[0]
-       lowest_error = self.errors()[1]
-       
-       if printLevel%0.7==0:
-           print("Nr of possible regions: ", len(self.robot.constraintGen.getConstraints().valid_regions))
-           for region in self.robot.constraintGen.getConstraints().valid_regions:
-               print(region.intervals[0])
-       for region in self.robot.constraintGen.getConstraints().valid_regions:
-           # orientation is set to the middle of the monotone region
-           i = region.intervals[0]
-           start_est_at = (i.upper_bound+i.lower_bound)/2
-           if printLevel%0.7==0:
-               print('Checking for region: ', i)
-               print('\tStarting estimation at: ', i.var, '=', start_est_at)
-           self.states.setValue(i.var, self.states.now, start_est_at)
-           self.states.setValue('vo', self.states.now, start_est_at-self.states['o'][self.states.now-1])
-           
-           print("before solving", variables_before_update)
-           print(self.states)
-           
-           errors = self.errors()[0]
-           
-           if printLevel%0.7==0:
-               print("errors:\n")
-               i=0
-               for motorSensor in self.motorsAndSensors:
-                   if motorSensor.enable:
-                       for t in range(self.states.startUnknown, self.states.now+1):
-                           print(motorSensor.name, t, errors[i], end = '\t')
-                           i+=1
-                           if i%3==0:
-                               print('\n')
-           
-           est.solve() # method defined in Estimation.IterativeEstimationAlg
-           
-           if printLevel%0.7==0:
-               print("states[o]: ", self.states['o'])
-           err = self.errors()
-           totalError_end.append(err[1])
-           
-           #save only best solution
-           if err[1]<lowest_error:
-               errors = err[0]
-               lowest_error = err[1]
-               variables_after_update =  self.updateableVariables()
-               best_states = self.states.deepcopy()
-               if printLevel%0.7==0:
-                   print("New better values with error=", totalError_end[-1])
-           else:
-               self.update(variables_before_update)
-               if printLevel%0.7==0:
-                   print("Not better with error=", totalError_end[-1])
-           self.states = states_before_update.deepcopy()
-           
-           
-       if printLevel%0.7==0:
-           print(variables_after_update)
-          
-       gMonitorT().setValue("erPRE", self.errors()[1])
-       self.states = best_states
-       gMonitorT().setValue("erPOST", self.errors()[1])
-       if printLevel%0.7==0:
-           print("errors:\n")
-           i=0
-           for motorSensor in self.motorsAndSensors:
-               if motorSensor.enable:
-                   for t in range(self.states.startUnknown, self.states.now+1):
-                       print(motorSensor.name, t, errors[i], end = '\t')
-                       i+=1
-                       if i%3==0:
-                           print('\n')
-       self.update(variables_after_update)
        changes = {} # dict from variable to tuple with old and new value
        for k in variables_before_update:
            changes[k] = (variables_before_update[k], variables_after_update[k])
@@ -299,7 +193,7 @@ class RobotModel (Robots.Robot, EstimationProblem):
                     v = self.states.value(variable, t)
                     if v < range_of_variable[0] or v > range_of_variable[1]:
                         raise ValueError("Variable "+variable +" out of range with value "+str(v))
-        self.errors() #recalcuate errors at the end of each update
+
 
             
     #  +++++ +++++ +++++ ++++ +++++ +++++
@@ -370,7 +264,7 @@ if __name__== "__main__":
         motor_input = [10, 20, 8, -20, -17, -10, 10, 10] + [0] * 20
         
         # running   
-        for i in range(0, min(33, len(motor_input))):
+        for i in range(0, min(3, len(motor_input))):
             t = i + 1
             print(' ============================= FRAME '+str(t)+' ============================')
             
@@ -390,7 +284,7 @@ if __name__== "__main__":
         
             # link RobotSim to RobotModel + estimate
             robotModel.addSensorReading(sensorValues, t)
-            changes = robotModel.estimate(dt = dt, nbrTries = 20 if t < 36 else 2, maxNbrDecreases = 10,  printLevel = 1 if t < 33 else 3 )
+            changes = robotModel.estimate(dt = dt, nbrTries = 20 if t < 36 else 2, maxNbrDecreases = 10,  printLevel = 0 if t < 2 else 3 )
             #for k, v in changes.items():
                # print('Unknown ', k, ' changed from  %.3f'%(v[0]) , 'to %.3f'%(v[1]))
             
@@ -398,7 +292,7 @@ if __name__== "__main__":
 
             gMonitorT().printAllFrames()
             
-            if simRobot.environment.touchedWall:
+            if False and simRobot.environment.touchedWall:
                 # we assume that estimation is OK now
                 robotModel.states.startUnknown = robotModel.states.now + 1
                 for motsens in robotModel.motorsAndSensors:
@@ -544,5 +438,6 @@ if __name__== "__main__":
         simRobot.calculateCovariances(True)
         print(' *** estimated noise of model ***')
         robotModel.calculateCovariances(True)
+        
 
 ### #### #### #### ### #### #### #### #### #### #### #### ###  

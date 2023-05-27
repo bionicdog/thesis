@@ -5,8 +5,13 @@ Control.py
 @author: Jan Lemeire & Nikolai Devolder from Robotic Sensing lab
 Created: May - December 2021
 """
-from rsLibrary.Monitor import gMonitorT
 import time
+from numbers import Number
+from rsLibrary.Monitor import gMonitorT
+from Motors import Motor
+from rsLibrary.Variable import Variable, RobotVariable
+
+
 #### #### #### ####  RobotControl  #### #### #### #### 
 class RobotControl:
     """
@@ -14,16 +19,16 @@ class RobotControl:
     Is implemented as an iterator.
 
     """
-    def hasNext(self):
+    def hasNext(self) -> bool:
         """
         returns false when the experiment has ended
 
         """
         raise NotImplementedError
 
-    def nextCommand(self):
+    def nextCommand(self) -> Number | list[Number] | dict[str:Number]:
         """
-        returns the next command for the robot
+        returns the next commands for the robot
 
         """
         raise NotImplementedError
@@ -44,6 +49,20 @@ class ControlByArray(RobotControl):
         self.i += 1
         return cmd
 
+class ControlByArrays(RobotControl):
+    
+    def __init__(self, commandLists: tuple[list]):
+        self.commandLists = commandLists
+        self.i = 0
+        
+    def hasNext(self):
+        return self.i < len(self.commandLists[0])
+
+    def nextCommand(self):
+        cmd = [ cmds[self.i] for cmds in self.commandLists ]
+        self.i += 1
+        return cmd
+    
 # a control to give the robot a certain speed, used to stop the robot with speed = 0
 class ControlBySpeed(RobotControl):
     
@@ -85,6 +104,28 @@ class Control1DTurn180(RobotControl):
                 self.step += 1
                 
         return output
+    
+class ControlRandom(RobotControl):
+    
+    def __init__(self, motorVariables: list[RobotVariable], duration:int=100):
+        self.duration = duration;
+        self.motorVariables = motorVariables
+        self.steps = 0
+        
+    def hasNext(self) -> bool:
+        return (self.steps < self.duration)
+
+    def nextCommand(self) -> dict[str:float]:
+        import numpy as np
+        cmd = {}
+        for m in self.motorVariables:
+            rand_val = np.random.random()* (m.max - m.min) - m.min
+            cmd[m.name] = rand_val
+        self.step += 1
+        return cmd
+    
+
+
     
 
 class KeyboardControl(RobotControl):

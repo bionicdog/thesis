@@ -8,6 +8,7 @@ Created: October 2021
 from numbers import Number
 import pandas as pd
 
+
 #### #### #### ####  MONITOR #### #### #### #### 
 # keeps one value per variable   
 class Monitor (dict):
@@ -113,6 +114,14 @@ class MonitorT (dict):
             if var not in self:
                 self[var] = [-1] * (self.endTime  + 1)
             self[var][time] = val
+
+    def setValuesWithPrefix(self, prefix:str, varValueDict:dict, time:int= -1):
+        self.enlargeFramesIfNecessary(time)
+        for var, val in varValueDict.items():
+            pvar = prefix + var
+            if pvar not in self:
+                self[pvar] = [-1] * (self.endTime  + 1)
+            self[pvar][time] = val
             
     def enlargeFramesIfNecessary(self, time:int):
         if (time > self.endTime):
@@ -135,14 +144,19 @@ class MonitorT (dict):
             print(*[v.ljust(self.colWidth) for v in self.variables], sep = '')  # 'string with tabs'.expandtabs(8)
             print(*['--'.ljust(self.colWidth) for v in self.variables], sep = '')
         
-    def value2string(self, v):
-        if abs(v) < 0.00000001:
-            return '0'.ljust(self.colWidth)
-        if v >= self._max_int_sign_digits and v < self._max_not_e:
-            return str(int(v)).ljust(self.colWidth)
-        else:
-            return format(v, self._sign_str).ljust(self.colWidth)
+    def value2string(self, v) -> str:
+        if isinstance(v, Number):
+            if abs(v) < 0.00000001:
+                return '0'.ljust(self.colWidth)
+            if v >= self._max_int_sign_digits and v < self._max_not_e:
+                return str(int(v)).ljust(self.colWidth)
+            else:
+                return format(v, self._sign_str).ljust(self.colWidth)
+        else: 
+            return str(v).ljust(self.colWidth)
 
+    def showAllVariables(self):
+        self.addVariables(list(self.keys()))
     def printLastFrame(self):
         if len(self.variables) > 1:
             print(*[ self.value2string(self[v][self.endTime]) for v in self.variables if v in self], sep = '') 
@@ -156,6 +170,14 @@ class MonitorT (dict):
     def exportDataFrame(self):
         df = pd.DataFrame.from_dict(self)#, columns=self.variables, index='t')
         df.to_csv('../rsViz/results.csv', index=False)
+        
+    def showOnTimeLine(self, *variables:str):
+        import matplotlib.pyplot as plt
+        for var in variables:
+            plt.plot(self['t'], self[var], label = var)
+        plt.xlabel(xlabel='time')
+        plt.legend(loc='upper center')
+        plt.show()
         
 _gMonitorT = MonitorT([])
 
@@ -174,7 +196,7 @@ def gMonitorT():
 ### #### #### ####       DEMO    CODE      #### #### #### ###
 ### #### #### #### ### #### #### #### #### #### #### #### ### 
 if __name__== "__main__":
-    if True:
+    if False:
         createMonitorT('a', 'b', 'c')
         gMonitorT().setValue('a', 12345, 0)
         gMonitorT().setValue('b', 12.34433, 0)
@@ -188,4 +210,17 @@ if __name__== "__main__":
         gMonitorT().setValue('b', 6)
         gMonitorT().setValue('c', 3, 1)
         print('print everything again')
+        gMonitorT().printAllFrames()
+    if True: # read from file with list of dictionaries
+        import pickle
+        file = open('dataEstWithMotor.pkl', 'rb')
+        data = pickle.load(file)
+        file.close()
+        createMonitorT()
+        t=0
+        for frame in data:
+            gMonitorT().setValues(frame, t)
+            t = t + 1
+            
+        gMonitorT().showAllVariables()
         gMonitorT().printAllFrames()

@@ -10,4 +10,6 @@ rsImaging/__pycache__
 *.pkl
 *.bak
 *.zip
-/old-QualitativeModel
+rsQualitativeModel/StateActionHist.py
+old-QualitativeModel/
+untitled*

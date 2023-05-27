@@ -12,7 +12,7 @@ import math
 import cv2
 
 import sys
-sys.path.append('C:\\Users\\Cedric\\Documents\\Spyder\\thesis\\rsPython-main') # repository of Robotic Sensing Lab's Python code
+sys.path.append('D:\\mycode\\smartdot\\rsPython') # repository of Robotic Sensing Lab's Python code
 
 from rsImaging.FilterAndContours import contoursOnHSV
 from rsImaging.ImageUtils import Color, resizeImage

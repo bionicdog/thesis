@@ -1,0 +1,32 @@
+V: all variables
+W: variables that have been varied in history
+
+History (data): triples
+
+Functions we use to analyse the empirical data in order to model, explore and act:
+
+DEPENDENCY ANALYSIS + SPACE PARTITIONING
+=> depList: variables in W that we consider as to be relevant for target (Markov blanket/boundary)
+
+ - projection of data on subset of variables  
+	 - depHistory
+	 - plotDepSpace: show projection  $$ pass depset
+ - conflictWithHist: all variables
+   conflictWithDepHistory: only dep variables
+  KAN GEMERGED WORDEN MET 
+   validatedepSetOnHistory(exact, bin, KDE) [equivalente naam: checkForConflicts ]
+   validatedepSetOnSample  incremental    [equivalente naam: checkForConflictsOnSample ]
+
+ - P(T=t|S), H_T(S), H(T|S)  S subset van V
+ - I(T:S2 | S1) = H(T|S1) - H(T|S1, S2)
+ 
+ => createNewdepSetFullHistory
+ => createNewdepSetIncremental
+ 
+MODELING
+ - learnModel given the depset
+ - predict with model
+ 
+EXPLORATION
+ - via priority queue
+ - 

@@ -84,7 +84,7 @@ ranges_upper[Color.WHITE] = np.array([256,256,90]) # low v-component
 ranges_lower[Color.GRAY] = np.array([0,0,59]) 
 ranges_upper[Color.GRAY] = np.array([256,80,140])
 
-ranges_lower[Color.CHROMATIC] = np.array([0,50,0]) # S > 49
+ranges_lower[Color.CHROMATIC] = np.array([0,50,0]) # S > 49   - in fact we should also limit V!!
 ranges_upper[Color.CHROMATIC] = np.array([256,256,256])
 
 ranges_lower[Color.NONCHROMATIC] = np.array([0,0,0]) 

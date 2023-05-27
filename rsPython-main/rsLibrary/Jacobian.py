@@ -119,7 +119,7 @@ class EstimationWithJacobian (IterativeEstimationAlg):
     def rowOfJacobianForVariable(self, updateableVariables, updateableVariables_list, val_array, idx:int, error_array):
         DELTA = self.chooseDelta(updateableVariables_list[idx], val_array[idx])
         val_array[idx] += DELTA
-            
+        val_array_cp = val_array.copy()
         try:
             new_error_array, new_total_error = self.applyNewValues(updateableVariables, val_array) # JL KAN LEIDEN TOT ONGELDIGE STATE
             #val_array[idx] -= DELTA
@@ -143,10 +143,10 @@ class EstimationWithJacobian (IterativeEstimationAlg):
         d_error = (new_error_array - error_array) / DELTA
 
         if self.printLevel > 4:
-            print(' ++ Jac contr: update of '+str(updateableVariables_list[idx])+ ' to {:.1f}'.format(val_array[idx])) #+' gives new error '+l2str(new_error_array)+' => d_error '+l2str(d_error))
+            print(' ++ Jac contr: update of '+str(updateableVariables_list[idx])+ ' to {:.1f} (DELTA={:.1f})'.format(val_array_cp[idx], DELTA)) #+' gives new error '+l2str(new_error_array)+' => d_error '+l2str(d_error))
             self.estimationProblem.printEvidence() ################
-            print('Jac: update '+str(val_array)+' gives new error '+l2str(new_error_array)+' => d_error '+l2str(d_error))
-        val_array[idx] -= DELTA  
+            print('Jac: update '+str(val_array_cp)+' gives new error '+l2str(new_error_array)+' => d_error '+l2str(d_error))
+        
         return d_error
         
     def constructJacobian(self, updateableVariables, updateableVariables_list, val_array, error_array):

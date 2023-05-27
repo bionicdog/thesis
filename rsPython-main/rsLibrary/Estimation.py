@@ -17,9 +17,6 @@ class EstimationProblem:
     Interface class all functions need to be overwritten by child classes
 
     """
-    def updateableVariableNames(self) -> list:
-        raise NotImplementedError
-        return []        
     def updateableVariables(self) -> dict:
         raise NotImplementedError
         return {}
@@ -27,23 +24,24 @@ class EstimationProblem:
         raise NotImplementedError
         return [], 0
     
-    def calculateCovariances(self):
-        pass
-    
-    def covarianceMatrixDiagonal(self) -> list:
-        return None
-    
     '''
     updates: dictionary from updateablevariable to new value
     '''
-    def updateVariables(self, updates:dict):
+    def update(self, updates:dict):
         raise NotImplementedError
 
+    # *** OPTIONAL METHODS ***
     def rangeOfVariable(self, variable:str) -> tuple: # optional
         return None  # default, results in a Jacobian test change of 1
         
     def printEvidence(self): # optional
         return 0 
+
+    def calculateCovariances(self):
+        pass
+    
+    def covarianceMatrixDiagonal(self) -> list:
+        return None
 
 def l2str(l) -> str:
     if type(l) == list:

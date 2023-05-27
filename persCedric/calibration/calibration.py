@@ -59,6 +59,14 @@ def test(imageName):
 
         #print(type(corners2[0][0][0]))
         corners3 = np.array(corners3, np.float32)
+
+        #change coordinates to make grid
+        #known that points will be on a straight line
+        print("DATA")
+        testarray = [[corners3[0][0], corners3[9][0]], [corners3[18][0], corners3[27][0]], [corners3[4][0], corners3[13][0]], [corners3[22][0], corners3[31][0]], [corners3[8][0], corners3[17][0]], [corners3[26][0], corners3[35][0]]]
+        for [a, b] in testarray:
+            print(a, b, np.sqrt(np.square(a[0]-b[0])+np.square(a[1]-b[1])))
+
         #print(type(corners3[0][0][0]))
         #draw and display corners
         cv2.drawChessboardCorners(img, (9, 6), corners3, ret)

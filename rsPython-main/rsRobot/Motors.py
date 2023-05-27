@@ -48,7 +48,7 @@ class LineairMotor(Motor):
     def observFunc(self, states, t):
         return self.params[self.paramName] * states[self.statevars[0]][t]
     
-    def motorFunc(self, motorValue, states, t):
+    def motorFunc(self, motorValue, states, t) -> dict:
         # is the inverse of the observ funct 
         
         gMonitorT().setValue(self.name, motorValue, t)

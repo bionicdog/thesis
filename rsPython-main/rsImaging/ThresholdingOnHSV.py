@@ -217,7 +217,7 @@ if __name__== "__main__":
 #    folder = 'D:/research/robotics/grijper Arion Tommy/grijper tommy/pictures'
 #    folder = 'D:/references/vision/lego brick images' #'/from phone 2'
    # folder = 'D:/references/vision/lego brick images/Neal/Blender/3001'
-    folder = 'D:/references/vision/lego brick images/details'
+    folder = 'D:/references/vision/lego brick images/colors'
    # folder = 'D:/research/vision/coloredObjectIdentification'
    # folder = 'D:/references/vision/from 2D to 3D/images'
     folder_inhoud = os.listdir(folder)

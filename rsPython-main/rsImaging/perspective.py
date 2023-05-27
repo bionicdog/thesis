@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed May 27 15:06:29 2020
+Created on Wed May 27 2020
 
 @author: Jan Lemeire
 
