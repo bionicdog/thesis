@@ -102,5 +102,8 @@ def test(imageName):
     return
 
 imageNames = glob.glob('persCedric/calibration/testImages/*.jpg')
-for name in imageNames:
-    test(name)
+# for name in imageNames:
+#     test(name)
+
+name = imageNames[0]
+test(name)
