@@ -101,7 +101,7 @@ def test(imageName):
         return False
     return
 
-imageNames = glob.glob('persCedric/calibration/testImages/*.jpg')
+imageNames = glob.glob('calibration/testImages/*.jpg')
 # for name in imageNames:
 #     test(name)
 
