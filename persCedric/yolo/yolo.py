@@ -20,7 +20,8 @@ class Yolo:
 				p2 = Point(box[2].item(), box[3].item())
 				#probability = box[4].item()
 				category = int(box[5].item())
-				center = Point((p1.x+p2.x)/2, (p1.y+p2.y)/2)
+				# box bottomline center
+				center = Point((p1.x+p2.x)/2, (p2.y)) # Point((p1.x+p2.x)/2, (p1.y+p2.y)/2)
 				if category == 0: # yellow
 					color = (0, 255, 255)
 					yellow_cones.append(center)

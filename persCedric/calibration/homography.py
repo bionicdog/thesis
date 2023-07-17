@@ -64,7 +64,7 @@ def test(imageName):
 
         # for test
         '''
-        warpedImg = cv2.warpPerspective(img, H, (img.shape[1], img.shape[0]))
+        warpedImg = cv2.warpPerspective(img, homographyMask, (img.shape[1], img.shape[0]))
         cv2.imshow('test', img)
         cv2.waitKey(0)
         cv2.imshow('test', warpedImg)

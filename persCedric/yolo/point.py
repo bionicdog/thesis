@@ -5,6 +5,9 @@ class Point:
 
 	def get(self):
 		return (self.x, self.y)
+	
+	def getArray(self):
+		return [self.x, self.y]
 
 	def get_int(self):
 		return (int(self.x), int(self.y))

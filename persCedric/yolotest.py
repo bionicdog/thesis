@@ -26,4 +26,8 @@ start_time = time.time()
 print("Duration: ", time.time()-start_time, " s")
 print(blueCones)
 
+for middlePoint in blueCones:
+    tmp = middlePoint.getArray()
+    cv2.circle(test_img, (round(tmp[0]), round(tmp[1])), 10, (0, 0, 255), thickness=3)
+
 showImage(test_img)
