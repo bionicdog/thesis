@@ -68,6 +68,8 @@ def showGroundplan(blueCoords, yellowCoords):
         plt.figure(0)
         plt.plot(yellowCoords[i][0][0], yellowCoords[i][0][1], "-^", color="gold") # yellow is to clear
         plt.text(yellowCoords[i][0][0], yellowCoords[i][0][1], i, color="black", fontsize=12)
+    plt.xlabel("x (mm)")
+    plt.ylabel("y (mm)")
     plt.show()
 
 '''YOLO'''
