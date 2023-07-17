@@ -39,7 +39,7 @@ def calcHomographyMask(img):
     dstCorners = np.zeros((54, 1, 2))
     for i in range(len(dstCorners)):
         dstCorners[i][0][0] = ((5 - np.floor(i/9)) - 2.5) * grid[0] # (5 * grid[0]) - ((i % 6) * grid[0]) # right to left "- 2.5" is to be positioned in the middle
-        dstCorners[i][0][1] = (i % 9) * grid[1]# (np.floor(i/9)) * grid[1] # top to bottom
+        dstCorners[i][0][1] = -1 * (i % 9) * grid[1]# (np.floor(i/9)) * grid[1] # bottom to top
     #print(dstCorners)
 
     #if found, add object points, image points (after refining them)
@@ -62,11 +62,11 @@ def calcHomographyPerspectiveTransform(srcCorners, homographyMask):
 def showGroundplan(blueCoords, yellowCoords):
     for i in range(len(blueCoords)):
         plt.figure(0)
-        plt.plot(blueCoords[i][0][0], blueCoords[i][0][1], "-o", color="blue")
+        plt.plot(blueCoords[i][0][0], blueCoords[i][0][1], "-^", color="blue")
         plt.text(blueCoords[i][0][0], blueCoords[i][0][1], i, color="black", fontsize=12)
     for i in range(len(yellowCoords)):
         plt.figure(0)
-        plt.plot(yellowCoords[i][0][0], yellowCoords[i][0][1], "-o", color="yellow")
+        plt.plot(yellowCoords[i][0][0], yellowCoords[i][0][1], "-^", color="gold") # yellow is to clear
         plt.text(yellowCoords[i][0][0], yellowCoords[i][0][1], i, color="black", fontsize=12)
     plt.show()
 
