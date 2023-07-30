@@ -13,6 +13,7 @@ class Camera:
         self.rawCapture = PiRGBArray(self.camera)
 
     def get_frame(self):
+        self.rawCapture.truncate(0)
         self.camera.capture(self.rawCapture, "bgr")
         image = self.rawCapture.array
         # cv2.imshow("image", image)

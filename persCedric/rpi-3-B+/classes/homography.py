@@ -47,10 +47,11 @@ class Homography:
         # if chessboard found
         if ret == True:
             srcCorners2 = cv2.cornerSubPix(grayImage, srcCorners, (11, 11), (-1, -1), self.criteria)
-            homographyMask, _ = cv2.findHomography(srcCorners2, self.dstCorners)
+            self.homographyMask, _ = cv2.findHomography(srcCorners2, self.dstCorners)
 
             # for test
-            dstCornersCalculated = cv2.perspectiveTransform(srcCorners, homographyMask)
+            '''
+            dstCornersCalculated = cv2.perspectiveTransform(srcCorners, self.homographyMask)
             for i in range(len(dstCornersCalculated)):
                 plt.figure(0)
                 plt.plot(dstCornersCalculated[i][0][0], dstCornersCalculated[i][0][1], "-o")
@@ -67,9 +68,16 @@ class Homography:
             print("x-coör:", averageXDifference, "mm")
             print("y-coör:", averageYDifference, "mm")
             plt.show()
-            return homographyMask
+            '''
+            return self.homographyMask
 
         return None
+    
+    def perspectiveTransform(self, pixel_coordinates, mask=None):
+        if mask == None:
+            mask = self.homographyMask
+        world_coordinates = cv2.perspectiveTransform(pixel_coordinates, mask)
+        return world_coordinates
 
 
 

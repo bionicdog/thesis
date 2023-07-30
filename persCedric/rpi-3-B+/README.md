@@ -1,4 +1,14 @@
 # imports:
+sudo pip3 install -U pip setuptools wheel
+sudo pip3 install opencv-python
+sudo pip3 install picamera
+sudo pip3 install onnxruntime
+sudo pip3 install matplotlib
+sudo apt install libcamera-apps
+
+
+
+
 sudo pip install opencv-python
 sudo pip install -U numpy
 sudo apt-get update && sudo apt-get upgrade -y
