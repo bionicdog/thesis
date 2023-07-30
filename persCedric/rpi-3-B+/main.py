@@ -1,4 +1,6 @@
 import cv2
+import numpy as np
+import matplotlib.pyplot as plt
 import time
 
 from classes.camera import Camera
@@ -6,9 +8,9 @@ from classes.yolo_onnx import Yolo
 from classes.homography import Homography
 
 # print timestamps
-timestamps = False
+timestamps = True
 # showimages
-showprocess = True
+showprocess = False
 floorplan = False
 cameraview = True
 
@@ -42,6 +44,11 @@ print("Yolo model initialised!")
 homography = Homography()
 print("Homography initialised!")
 
+if showprocess & cameraview:
+    time_to_run = 10
+    fps = 15
+    fourcc = cv2.VideoWriter_fourcc(*'DIVX')
+    file = cv2.VideoWriter('../output.avi', fourcc, fps, (448, 448))
 
 
 '''running loop'''
@@ -54,8 +61,9 @@ if __name__ == '__main__':
     else:
         print("Homography failed: didn't find chessboard")
         exit(1)'''
-
+    counter = 0
     while True:
+        counter += 1
         # duration processing 1 frame
         t0 = time.perf_counter()
 
@@ -90,3 +98,13 @@ if __name__ == '__main__':
             if cameraview:
                 combined_img = model.draw_detections(frame)
                 # cv2.imshow("camera view", combined_img)
+                '''
+                plt.figure(0)
+                plt.imshow(combined_img)
+                plt.show()
+                '''
+                print(f"writing image {counter}")
+                file.write(combined_img)
+                if counter == time_to_run*fps:
+                    file.release()
+                    break

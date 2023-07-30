@@ -1,10 +1,15 @@
 # imports:
+sudo apt-get update
+sudo apt-get upgrade
 sudo pip3 install -U pip setuptools wheel
+sudo apt install libcamera-apps
 sudo pip3 install opencv-python
-sudo pip3 install picamera
+# sudo pip3 install picamera
 sudo pip3 install onnxruntime
 sudo pip3 install matplotlib
-sudo apt install libcamera-apps
+
+# test camera:
+libcamera-hello --qt-preview
 
 
 
