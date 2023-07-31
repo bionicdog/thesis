@@ -10,7 +10,7 @@ from classes.homography import Homography
 # print timestamps
 timestamps = True
 # showimages
-showprocess = False
+showprocess = True
 floorplan = False
 cameraview = True
 
@@ -45,7 +45,7 @@ homography = Homography()
 print("Homography initialised!")
 
 if showprocess & cameraview:
-    time_to_run = 10
+    time_to_run = 2
     fps = 15
     fourcc = cv2.VideoWriter_fourcc(*'DIVX')
     file = cv2.VideoWriter('../output.avi', fourcc, fps, (448, 448))
@@ -55,12 +55,15 @@ if showprocess & cameraview:
 if __name__ == '__main__':
 
     mask = homography.calculateMask(camera.get_frame())
-    '''
-    if homography.calculateMask(camera.get_frame()):
+    # image_test = cv2.imread("../20230716-1-small.jpg")
+    # mask = homography.calculateMask(image_test)
+
+    if mask is not None:
         print("Homography mask calculated!")
     else:
         print("Homography failed: didn't find chessboard")
-        exit(1)'''
+        # exit(1)
+    
     counter = 0
     while True:
         counter += 1
@@ -80,12 +83,13 @@ if __name__ == '__main__':
         centerpoints = model.xyxyBoxes_to_centerpoints(boxes)
 
         # calculating homography
-        if mask:
+        if mask is not None:
             world_coordinates = homography.perspectiveTransform(centerpoints)
         t3 = time.perf_counter()
 
         # show timestamps
         if timestamps:
+            print(f"Processing image {counter}")
             print(f"Overall time for 1 frame: \t{(t3 - t0)*1000:.2f} ms")
             print(f"Take image time for 1 frame: \t{(t1 - t0)*1000:.2f} ms")
             print(f"YOLO time for 1 frame: \t{(t2 - t1)*1000:.2f} ms")
