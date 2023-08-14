@@ -1,4 +1,4 @@
-'''Bronnen'''
+'''Sources'''
 #https://gist.github.com/razimgit/d9c91edfd1be6420f58a74e1837bde18
 
 '''imports'''

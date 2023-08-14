@@ -6,12 +6,12 @@ import time
 
 '''personal imports'''
 sys.path.append(os.path.abspath("image_processing"))
-from image import readImage, showImage
-from edge_detection import blueFilter, yellowFilter, orangeFilter, morphOpen, getContours, contourIsCone
+from image_processing.image import readImage, showImage
+from image_processing.edge_detection import blueFilter, yellowFilter, orangeFilter, morphOpen, getContours, contourIsCone
 
-path = "D:/fsoco_bounding_boxes_train/ampera/img/amz_03009.png"
-#path = "F:/fsoco_bounding_boxes_train/ampera/img/amz_03132.png"
-#path = "F:/fsoco_bounding_boxes_train/prom/img/prom_00121.jpg"
+#path = "D:/fsoco_bounding_boxes_train/ampera/img/amz_03009.png"
+#path = "D:/fsoco_bounding_boxes_train/ampera/img/amz_03132.png"
+path = "D:/fsoco_bounding_boxes_train/prom/img/prom_00121.jpg"
 
 
 img = readImage(path)
@@ -38,7 +38,7 @@ img = readImage(path)
 
 
 test_img = img.copy()
-start_time = time.time()
+start_time = time.perf_counter()
 
 blueContours = getContours(morphOpen(blueFilter(img)))
 blueCones = []
@@ -61,7 +61,7 @@ for contour in orangeContours:
     if (isCone):
         orangeCones.append(boundary_box)
 
-print("Duration: ", time.time()-start_time, " s")
+print(f"Duration: {(time.perf_counter() - start_time)*1000:.2f} ms")
 
 for [x, y, w, h] in blueCones:
     cv2.rectangle(test_img, (x, y), (x+w, y+h), (255, 0, 0), thickness=3)
@@ -85,6 +85,7 @@ for [x, y, w, h] in yellowCones:
         closestYellowCone = [x, y, w, h]
         tempDist = y+(h/2)
 
+'''
 #draw line from closest blue cone to closest yellow cone
 leftPoint = (round(closestBlueCone[0]+closestBlueCone[2]), round(closestBlueCone[1]+(closestBlueCone[3]/2)))
 rightPoint = (round(closestYellowCone[0]), round(closestYellowCone[1]+(closestYellowCone[3]/2)))
@@ -93,5 +94,9 @@ cv2.line(test_img, leftPoint, rightPoint, (0, 200, 200), thickness=3)
 #draw circle on middle point on that line
 middlePoint = (round((rightPoint[0]+leftPoint[0])/2), round((rightPoint[1]+leftPoint[1])/2))
 cv2.circle(test_img, middlePoint, 10, (0, 0, 255), thickness=3)
+'''
+
+writeFile = "C:/Users/cedri/Desktop/images thesis/HSV/Image_3.png"
+cv2.imwrite(writeFile, test_img)
 
 showImage(test_img)
