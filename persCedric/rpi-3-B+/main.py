@@ -53,8 +53,10 @@ if showprocess & cameraview:
 
 '''running loop'''
 if __name__ == '__main__':
-
-    mask = homography.calculateMask(camera.get_frame())
+    frame = camera.get_frame()
+    mask = homography.calculateMask(frame)
+    plt.imshow(frame)
+    plt.show()
     # image_test = cv2.imread("../20230716-1-small.jpg")
     # mask = homography.calculateMask(image_test)
 
