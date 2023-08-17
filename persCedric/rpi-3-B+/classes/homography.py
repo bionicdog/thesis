@@ -14,6 +14,7 @@ class Homography:
         # grid
         self.square = [30, 30] # square size in grid (in mm)
         self.grid = (8, 5) # grid size (in squares)
+        self.distance_grid = 120 # mm
 
         # criteria
         self.criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
@@ -21,8 +22,8 @@ class Homography:
         # destination from calibration (calculated from grid and square)
         self.dstCorners = np.zeros(((self.grid[0]*self.grid[1]), 1, 2))
         for i in range(len(self.dstCorners)):
-            self.dstCorners[i][0][0] = (4 - np.floor(i/self.grid[0])) * self.square[0] # (5 * grid[0]) - ((i % 6) * grid[0]) # right to left
-            self.dstCorners[i][0][1] = (i % self.grid[0]) * self.square[1]# (np.floor(i/9)) * grid[1] # top to bottom
+            self.dstCorners[i][0][0] = (np.floor(i/self.grid[0]) - ((self.grid[1]-1)/2)) * self.square[0] # right to left
+            self.dstCorners[i][0][1] = (i % self.grid[0]) * self.square[1] # + self.distance_grid # top to bottom
     
     def calculateMask(self, image):
         grayImage = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -30,7 +31,7 @@ class Homography:
 
         # if chessboard found
         if ret == True:
-            srcCorners2 = cv2.cornerSubPix(grayImage, srcCorners, (11, 11), (-1, -1), self.criteria)
+            srcCorners2 = cv2.cornerSubPix(grayImage, srcCorners, (5, 5), (-1, -1), self.criteria)
             self.homographyMask, _ = cv2.findHomography(srcCorners2, self.dstCorners)
 
             # for test

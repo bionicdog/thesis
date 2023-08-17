@@ -91,11 +91,11 @@ class Yolo:
     def draw_detections(self, image, mask_alpha=4):
         return draw_detections(image, self.boxes, self.scores, self.class_ids, mask_alpha)
     
-    def xyxyBoxes_to_centerpoints(self, boxes):
+    def xyxyBoxes_to_bottom_centerpoints(self, boxes):
         centerpoints = np.zeros((len(boxes), 1, 2))
         for i in range(len(boxes)):
             centerpoints[i][0][0] = (boxes[i][0] + boxes[i][2]) / 2
-            centerpoints[i][0][1] = (boxes[i][1] + boxes[i][3]) / 2
+            centerpoints[i][0][1] = np.min([boxes[i][1], boxes[i][3]])
         return centerpoints
     
     def get_class_name(self, index):

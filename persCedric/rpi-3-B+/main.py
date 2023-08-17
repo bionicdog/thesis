@@ -11,7 +11,7 @@ from classes.homography import Homography
 timestamps = True
 # showimages
 showprocess = True
-floorplan = False
+floorplan = True
 cameraview = True
 
 if floorplan:
@@ -27,6 +27,7 @@ def showGroundplan(coordinates, class_ids):
     colors = model.get_colors()
     for i in range(len(class_ids)):
         color = colors[class_ids[i]]
+        color = [value/255 for value in color]
         plt.plot(coordinates[i][0][0], coordinates[i][0][1], "^", color=color)
     plt.xlabel("x (mm)")
     plt.ylabel("y (mm)")
@@ -82,7 +83,7 @@ if __name__ == '__main__':
         t2 = time.perf_counter()
 
         # extracting cones-position pixel-coordinates
-        centerpoints = model.xyxyBoxes_to_centerpoints(boxes)
+        centerpoints = model.xyxyBoxes_to_bottom_centerpoints(boxes)
 
         # calculating homography
         if mask is not None:
