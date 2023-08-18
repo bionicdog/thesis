@@ -10,11 +10,11 @@ import numpy as np
 # import matplotlib.pyplot as plt
 
 class Homography:
-    def __init__(self):
+    def __init__(self, distance_grid):
         # grid
         self.square = [30, 30] # square size in grid (in mm)
         self.grid = (8, 5) # grid size (in squares)
-        self.distance_grid = 120 # mm
+        self.distance_grid = distance_grid
 
         # criteria
         self.criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
@@ -23,7 +23,7 @@ class Homography:
         self.dstCorners = np.zeros(((self.grid[0]*self.grid[1]), 1, 2))
         for i in range(len(self.dstCorners)):
             self.dstCorners[i][0][0] = (np.floor(i/self.grid[0]) - ((self.grid[1]-1)/2)) * self.square[0] # right to left
-            self.dstCorners[i][0][1] = (i % self.grid[0]) * self.square[1] # + self.distance_grid # top to bottom
+            self.dstCorners[i][0][1] = (i % self.grid[0]) * self.square[1] # + distance_grid # top to bottom
     
     def calculateMask(self, image):
         grayImage = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -62,4 +62,7 @@ class Homography:
         if mask == None:
             mask = self.homographyMask
         world_coordinates = cv2.perspectiveTransform(pixel_coordinates, mask)
+        for index in range(len(world_coordinates)):
+            world_coordinates[index][0] = [world_coordinates[index][0][0]*3/4,
+                                           world_coordinates[index][0][1]*3/4 + self.distance_grid]
         return world_coordinates

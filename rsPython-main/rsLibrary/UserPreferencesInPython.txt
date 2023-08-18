@@ -1,1 +1,0 @@
-{'name': 'jan', 'age': 49, 'currentImageFile': 'D:/research/robotics/grijper Arion Tommy/grijper tommy/pictures/image_2020-06-23 20_06_4.jpg'}

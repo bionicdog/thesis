@@ -7,7 +7,7 @@ from picamera.array import PiRGBArray
 '''
 
 class Camera:
-    def __init__(self):
+    def __init__(self, fps):
         self.cap = cv2.VideoCapture(0)
         self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
         self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)

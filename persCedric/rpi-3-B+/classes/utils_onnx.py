@@ -11,7 +11,7 @@ colors = [[255, 0, 0],      # yellow
           [255, 255, 0]]    # red
 
 def xywh2xyxy(input_boxes):
-    print(np.shape(colors))
+    # print(np.shape(colors))
     # Convert bounding box (x, y, w, h) to bounding box (x1, y1, x2, y2)
     output_boxes = np.copy(input_boxes)
     output_boxes[..., 0] = input_boxes[..., 0] - input_boxes[..., 2] / 2

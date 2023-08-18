@@ -11,8 +11,13 @@ from classes.homography import Homography
 timestamps = True
 # showimages
 showprocess = True
-floorplan = True
+floorplan = False
 cameraview = True
+cone_measuring_output = True
+
+if cone_measuring_output:
+    import xlsxwriter
+    workbook = xlsxwriter.Workbook("testdata.xlsx")
 
 if floorplan:
     import matplotlib.pyplot as plt
@@ -24,10 +29,12 @@ def showGroundplan(coordinates, class_ids):
         cv2.circle(combined_img, (int(coordinates[i][0][0]), int(coordinates[i][0][1])), 2, model.get_color(class_ids[i]), 1)
         '''
     plt.figure(0)
-    colors = model.get_colors()
+    plt.plot(0, 0, "*", color="black")
+    #colors = model.get_colors()
+    colors = ["gold", "blue", "orange", "red"]
     for i in range(len(class_ids)):
         color = colors[class_ids[i]]
-        color = [value/255 for value in color]
+        #color = [value/255 for value in color]
         plt.plot(coordinates[i][0][0], coordinates[i][0][1], "^", color=color)
     plt.xlabel("x (mm)")
     plt.ylabel("y (mm)")
@@ -35,19 +42,20 @@ def showGroundplan(coordinates, class_ids):
     return
 
 '''initialisation'''
-camera = Camera()
+fps = 1
+
+camera = Camera(fps)
 print("Camera initialised!")
 
 onnx_path = "data/YOLOv8n_FSOCO.onnx"
 model = Yolo(onnx_path)
 print("Yolo model initialised!")
 
-homography = Homography()
+homography = Homography(200)
 print("Homography initialised!")
 
 if showprocess & cameraview:
-    time_to_run = 2
-    fps = 15
+    time_to_run = 30 # seconds
     fourcc = cv2.VideoWriter_fourcc(*'DIVX')
     file = cv2.VideoWriter('../output.avi', fourcc, fps, (448, 448))
 
@@ -98,6 +106,15 @@ if __name__ == '__main__':
             print(f"YOLO time for 1 frame: \t{(t2 - t1)*1000:.2f} ms")
             print(f"Homography time for 1 frame: \t{(t3 - t2)*1000:.2f} ms")
         
+        if cone_measuring_output:
+            worksheet = workbook.add_worksheet(str(counter))
+
+            for i in range(len(world_coordinates)):
+                worksheet.write(i, 0, world_coordinates[i][0][0])
+                worksheet.write(i, 1, world_coordinates[i][0][1])
+                worksheet.write(i, 2, np.abs(boxes[i][0] - boxes[i][2]))
+
+
         # show output
         if showprocess:
             if floorplan:
@@ -115,3 +132,5 @@ if __name__ == '__main__':
                 if counter == time_to_run*fps:
                     file.release()
                     break
+    if cone_measuring_output:
+        workbook.close()
