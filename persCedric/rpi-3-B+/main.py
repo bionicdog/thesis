@@ -13,7 +13,7 @@ timestamps = True
 showprocess = True
 floorplan = False
 cameraview = True
-cone_measuring_output = True
+cone_measuring_output = False
 
 if cone_measuring_output:
     import xlsxwriter
