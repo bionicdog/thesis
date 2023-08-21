@@ -20,7 +20,7 @@ tresh_orange_lower = np.array([0,35,140])
 tresh_orange_upper = np.array([15,255,255])
 
 '''code'''
-def blueFilter(img): #https://www.geeksforgeeks.org/filter-color-with-opencv/
+def blueFilter(img):
     hsv_img = image.Rgb2HsvImage(img)
 
     #overlay mask

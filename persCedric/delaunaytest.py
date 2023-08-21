@@ -1,5 +1,3 @@
-# source: https://blogs.mathworks.com/student-lounge/2022/10/03/path-planning-for-formula-student-driverless-cars-using-delaunay-triangulation/
-
 '''
 innerConePosition = [[[6.49447171658257,41.7389113024907]],[[8.49189149682204,41.8037451937836]],
                      [[10.4848751821667,41.8690573815958]],[[12.4735170408320,41.9319164105607]],
@@ -170,11 +168,17 @@ colors = ["gold", "blue", "orange", "red"]
 def loadGroundplan(yellowCoords, blueCoords):
     for i in range(len(blueCoords)):
         plt.figure(0)
-        plt.plot(blueCoords[i][0][0], blueCoords[i][0][1], "-^", color="blue")
+        if i ==0:
+            plt.plot(blueCoords[i][0][0], blueCoords[i][0][1], "-^", color="blue", label="blue cone")
+        else:
+            plt.plot(blueCoords[i][0][0], blueCoords[i][0][1], "-^", color="blue")
         plt.text(blueCoords[i][0][0], blueCoords[i][0][1], i, color="black", fontsize=12)
     for i in range(len(yellowCoords)):
         plt.figure(0)
-        plt.plot(yellowCoords[i][0][0], yellowCoords[i][0][1], "-^", color="gold") # yellow is to clear
+        if i == 0:
+            plt.plot(yellowCoords[i][0][0], yellowCoords[i][0][1], "-^", color="gold", label="yellow cone") # yellow is to clear
+        else:
+            plt.plot(yellowCoords[i][0][0], yellowCoords[i][0][1], "-^", color="gold")
         plt.text(yellowCoords[i][0][0], yellowCoords[i][0][1], i, color="black", fontsize=12)
     plt.xlabel("x (mm)")
     plt.ylabel("y (mm)")
@@ -271,7 +275,9 @@ while len(centers) > 0:
     path.append(centers[next_point_idx])
     centers.pop(next_point_idx)
 
-for i in range(len(path)-1):
+plt.plot([path[0][0], path[1][0]], [path[0][1], path[1][1]], "-", color="green", label="path")
+for i in range(1, len(path)-1):
     plt.plot([path[i][0], path[i+1][0]], [path[i][1], path[i+1][1]], "-", color="green")
 
+plt.legend()
 plt.show()

@@ -1,0 +1,63 @@
+#calibration
+## Brown-Conrady
+https://en.wikipedia.org/wiki/Distortion_(optics)
+## calibration
+https://docs.opencv.org/4.x/dc/dbb/tutorial_py_calibration.html
+##homography
+https://nilesh0109.medium.com/camera-image-perspective-transformation-to-different-plane-using-opencv-5e389dd56527
+https://docs.opencv.org/4.x/d9/dab/tutorial_homography.html
+https://docs.opencv.org/4.x/d2/de8/group__core__array.html#gad327659ac03e5fd6894b90025e6900a7 (perspectiveTransform)
+
+#image_processing
+## edge detection
+https://www.geeksforgeeks.org/filter-color-with-opencv/
+
+# rpi-3-B+
+## classes
+### camera
+https://pyimagesearch.com/2015/03/30/accessing-the-raspberry-pi-camera-with-opencv-and-python/
+### delaunay
+https://blogs.mathworks.com/student-lounge/2022/10/03/path-planning-for-formula-student-driverless-cars-using-delaunay-triangulation/
+https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.Delaunay.html
+### homography
+https://nilesh0109.medium.com/camera-image-perspective-transformation-to-different-plane-using-opencv-5e389dd56527
+https://docs.opencv.org/4.x/d9/dab/tutorial_homography.html
+https://docs.opencv.org/4.x/d2/de8/group__core__array.html#gad327659ac03e5fd6894b90025e6900a7 (perspectiveTransform)
+### robot
+#https://roboticsbackend.com/raspberry-pi-arduino-serial-communication/#:~:text=The%20easiest%20way%20is%20to,Arduino%20IDE)%20to%20your%20board.
+### onnx
+https://github.com/ibaiGorordo/ONNX-YOLOv8-Object-Detection/tree/main
+https://towardsdatascience.com/non-maximum-suppression-nms-93ce178e177c
+https://onnxruntime.ai/docs/tutorials/iot-edge/rasp-pi-cv.html
+https://github.com/ibaiGorordo/ONNX-YOLOv8-Object-Detection/tree/main
+## data
+https://github.com/VUBRacing/DV
+
+## other
+### talk_arduino
+https://roboticsbackend.com/raspberry-pi-arduino-serial-communication/#:~:text=The%20easiest%20way%20is%20to,Arduino%20IDE)%20to%20your%20board.
+### trackdrive
+
+
+# testdata and images
+https://www.fsoco-dataset.com/
+
+# testimages
+None
+
+# YOLO
+## point
+https://github.com/VUBRacing/DV
+## onnx
+https://github.com/ibaiGorordo/ONNX-YOLOv8-Object-Detection/tree/main
+https://towardsdatascience.com/non-maximum-suppression-nms-93ce178e177c
+https://onnxruntime.ai/docs/tutorials/iot-edge/rasp-pi-cv.html
+https://github.com/ibaiGorordo/ONNX-YOLOv8-Object-Detection/tree/main
+## yolo
+https://github.com/VUBRacing/DV
+
+# other
+## delaunaytest
+https://blogs.mathworks.com/student-lounge/2022/10/03/path-planning-for-formula-student-driverless-cars-using-delaunay-triangulation/
+## homography+yolo, image_process_test, onnxtest (both) and yolotest
+https://www.fsoco-dataset.com/

@@ -1,5 +1,3 @@
-# source: https://github.com/ibaiGorordo/ONNX-YOLOv8-Object-Detection/tree/main
-
 import numpy as np
 import cv2
 

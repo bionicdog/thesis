@@ -1,5 +1,3 @@
-#source: https://pyimagesearch.com/2015/03/30/accessing-the-raspberry-pi-camera-with-opencv-and-python/
-
 import cv2
 '''
 from picamera import PiCamera

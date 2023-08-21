@@ -1,8 +1,3 @@
-# sources:
-# https://nilesh0109.medium.com/camera-image-perspective-transformation-to-different-plane-using-opencv-5e389dd56527
-# https://docs.opencv.org/4.x/d9/dab/tutorial_homography.html
-# perspectiveTransform: https://docs.opencv.org/4.x/d2/de8/group__core__array.html#gad327659ac03e5fd6894b90025e6900a7
-
 import cv2
 import glob
 
