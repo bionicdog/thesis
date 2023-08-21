@@ -54,6 +54,8 @@ https://towardsdatascience.com/non-maximum-suppression-nms-93ce178e177c
 https://onnxruntime.ai/docs/tutorials/iot-edge/rasp-pi-cv.html
 https://github.com/ibaiGorordo/ONNX-YOLOv8-Object-Detection/tree/main
 ## yolo
+https://docs.ultralytics.com/modes/train/
+https://github.com/ultralytics/ultralytics/blob/main/README.md
 https://github.com/VUBRacing/DV
 
 # other
