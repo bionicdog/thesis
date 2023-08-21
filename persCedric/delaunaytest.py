@@ -217,6 +217,7 @@ def distance(point0, point1):
     return sqrt(pow(point1[0]-point0[0], 2) + pow(point1[1]-point0[1], 2))
 
 allPoints = prepareDelaunayInput(yellowCones, blueCones)
+print(np.shape(allPoints))
 delaunayTriangles = Delaunay(allPoints)
 
 blue_edges = []

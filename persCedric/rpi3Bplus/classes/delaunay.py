@@ -1,4 +1,4 @@
-from scipy.spatial import Delaunay
+from scipy import spatial
 from math import sqrt, pow
 import numpy as np
 
@@ -31,8 +31,8 @@ class Delaunay:
         self.mixed_edges = []
 
         # calculate delaunay_triangles
-        delaunay_input = [coordinate[0] for coordinate in coordinates]
-        delaunay_triangles = Delaunay(delaunay_input)
+        delaunay_input = np.array([coordinate[0] for coordinate in coordinates])
+        delaunay_triangles = spatial.Delaunay(delaunay_input)
 
         for triangle in delaunay_triangles.simplices:
             point0 = delaunay_input[triangle[0]]

@@ -25,6 +25,11 @@ https://docs.opencv.org/4.x/d9/dab/tutorial_homography.html
 https://docs.opencv.org/4.x/d2/de8/group__core__array.html#gad327659ac03e5fd6894b90025e6900a7 (perspectiveTransform)
 ### robot
 #https://roboticsbackend.com/raspberry-pi-arduino-serial-communication/#:~:text=The%20easiest%20way%20is%20to,Arduino%20IDE)%20to%20your%20board.
+### socket
+https://docs.python.org/3/library/socket.html#example
+https://thezanshow.com/electronics-tutorials/raspberry-pi/tutorial-27-28-29
+https://stackoverflow.com/questions/20820602/image-send-via-tcp
+https://gist.github.com/kittinan/e7ecefddda5616eab2765fdb2affed1b
 ### onnx
 https://github.com/ibaiGorordo/ONNX-YOLOv8-Object-Detection/tree/main
 https://towardsdatascience.com/non-maximum-suppression-nms-93ce178e177c
@@ -32,12 +37,15 @@ https://onnxruntime.ai/docs/tutorials/iot-edge/rasp-pi-cv.html
 https://github.com/ibaiGorordo/ONNX-YOLOv8-Object-Detection/tree/main
 ## data
 https://github.com/VUBRacing/DV
+## trackdrive
+https://stackoverflow.com/questions/7586063/how-to-calculate-the-angle-between-a-line-and-the-horizontal-axis
 
 ## other
 ### talk_arduino
 https://roboticsbackend.com/raspberry-pi-arduino-serial-communication/#:~:text=The%20easiest%20way%20is%20to,Arduino%20IDE)%20to%20your%20board.
 ### trackdrive
-
+https://stackoverflow.com/questions/28260962/calculating-angles-between-line-segments-python-with-math-atan2
+https://www.geeksforgeeks.org/angle-between-a-pair-of-lines/
 
 # testdata and images
 https://www.fsoco-dataset.com/
@@ -54,6 +62,7 @@ https://towardsdatascience.com/non-maximum-suppression-nms-93ce178e177c
 https://onnxruntime.ai/docs/tutorials/iot-edge/rasp-pi-cv.html
 https://github.com/ibaiGorordo/ONNX-YOLOv8-Object-Detection/tree/main
 ## yolo
+https://docs.ultralytics.com/quickstart/
 https://docs.ultralytics.com/modes/train/
 https://github.com/ultralytics/ultralytics/blob/main/README.md
 https://github.com/VUBRacing/DV
@@ -63,3 +72,6 @@ https://github.com/VUBRacing/DV
 https://blogs.mathworks.com/student-lounge/2022/10/03/path-planning-for-formula-student-driverless-cars-using-delaunay-triangulation/
 ## homography+yolo, image_process_test, onnxtest (both) and yolotest
 https://www.fsoco-dataset.com/
+
+# chessboard
+http://boofcv.org/notwiki/calibration/A4_chessboard.pdf

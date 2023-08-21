@@ -1,4 +1,4 @@
-import serial # import pyserial
+import serial # pyserial
 
 class Robot():
     def __init__(self, device): #device='/dev/ttyUSB0'

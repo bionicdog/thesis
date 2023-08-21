@@ -5,9 +5,9 @@ import numpy as np
 # import matplotlib.pyplot as plt
 
 class Homography:
-    def __init__(self, distance_grid):
+    def __init__(self, distance_grid, square_in_grid=[30, 30]):
         # grid
-        self.square = [30, 30] # square size in grid (in mm)
+        self.square = square_in_grid # square size in grid (in mm)
         self.grid = (8, 5) # grid size (in squares)
         self.distance_grid = distance_grid
 
