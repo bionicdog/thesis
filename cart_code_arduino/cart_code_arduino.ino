@@ -2,19 +2,21 @@
 
 Servo servo, esc; // servo controller (multiple can exist)
 
-int servo_pin = 11; // PWM pin for servo control
+int servo_pin = 9; // PWM pin for servo control
 int pos = 0;    // servo starting position
 
-int esc_pin = 9;
+int esc_pin = 11;
 
 void setup() {
-  servo.attach(servo_pin); // start servo control
   esc.attach(esc_pin);
+  servo.attach(servo_pin); // start servo control
+
+  Serial.begin(115200);
 
   set_speed(0); // set zero on ESC
+  delay(50);
   steering(0); // drive straight
-  delay(100);
-  Serial.begin(115200);
+  delay(50);
 }
 
 void loop() {
@@ -35,7 +37,7 @@ void loop() {
   /*
   for (int x=-100; x <=50; x += 10) {
     set_speed(x);
-    // Serial.println(x);
+    Serial.println(x);
     delay(1000);
   }
   set_speed(0);
@@ -74,13 +76,14 @@ void set_speed(int valueSpeed) { // percents
   }
 }
 
+
 void steering(int valueDegrees) {
   // left < 0, right > 0 in degrees
   // keep steering in between -15 en 15 °
   if (-15 > valueDegrees) {valueDegrees = -15;}
   else if (15 < valueDegrees) {valueDegrees = 15;}
 
-  int pwmValue = map(valueDegrees, -22, 15, 45, 15);
+  int pwmValue = map(valueDegrees, -25, 15, 45, 15);
   servo.write(pwmValue);
 }
 

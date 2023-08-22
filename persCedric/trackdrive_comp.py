@@ -105,7 +105,8 @@ if __name__ == '__main__':
 
         # path-planning
         # output only for debugging as it is saved in the class
-        yellow_edges, blue_edges, mixed_edges = delaunay.delaunay(world_coordinates, class_ids)
+        if (len(world_coordinates) >= 4):
+            yellow_edges, blue_edges, mixed_edges = delaunay.delaunay(world_coordinates, class_ids)
         path = delaunay.getPath()
 
         t4 = time.perf_counter()
