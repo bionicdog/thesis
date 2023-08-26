@@ -8,7 +8,7 @@ from classes.camera import Camera
 # from classes.yolo_onnx import Yolo
 # from classes.homography import Homography
 # from classes.delaunay import Delaunay
-from classes.robot import Robot
+from classes.robot import Robot, Bicycle_model
 
 from classes.socket import Client
 
@@ -34,6 +34,9 @@ print("Camera initialised!")
 robot = Robot('/dev/ttyUSB0')
 print("Control initialised!")
 
+bicycle_model = Bicycle_model(max_speed=max_speed)
+print("Bicycle model initialised")
+
 print("Making connection ...")
 client_socket = Client("192.168.1.21")
 print("Connection established")
@@ -44,6 +47,8 @@ if __name__ == '__main__':
     frame = camera.get_frame()
     # send_frame_recv_path instead of send_frame to prevent deadlock
     client_socket.send_frame_recv_path(frame)
+
+    t_start = time.perf_counter()
     
     while True:
         # duration processing 1 frame
@@ -62,7 +67,12 @@ if __name__ == '__main__':
         speed = 0
         brake = 0
         if len(path) >= 2:
+            '''
             speed = max_speed
             angle = calc_angle([[0, 0], [0.001, 1]], path[:2])
+            '''
+            speed, angle = bicycle_model.calc_steering_angle(path[2])
             print(angle)
-        robot.set_speed_and_steeringangle(speed, angle)
+        else:
+            print(f"time ran: {(time.perf_counter()-t_start)*1000:.2f} ms")
+        robot.set_speed_and_steeringangle(speed, int(angle))

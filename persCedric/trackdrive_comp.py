@@ -13,7 +13,7 @@ from rpi3Bplus.classes.socket import Server
 # print timestamps
 timestamps = True
 # showimages
-recordrun = False
+recordrun = True
 floorplan = False # TODO
 cameraview = True
 
@@ -107,7 +107,9 @@ if __name__ == '__main__':
         # output only for debugging as it is saved in the class
         if (len(world_coordinates) >= 4):
             yellow_edges, blue_edges, mixed_edges = delaunay.delaunay(world_coordinates, class_ids)
-        path = delaunay.getPath()
+            path = delaunay.getPath()
+        else:
+            path = [[0, 0]] # brake
 
         t4 = time.perf_counter()
 
